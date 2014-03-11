@@ -1,0 +1,52 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+	<div class="b-ptn js-ptn">
+		<div class="ptn-wrap js-ptn-wrap">
+			<div class="ptn-item js-item color-red"></div><div class="ptn-item js-item color-orange"></div><div class="ptn-item js-item color-yellow"></div><div class="ptn-item js-item color-green"></div><div class="ptn-item js-item color-lightblue"></div><div class="ptn-item js-item color-blue"></div><div class="ptn-item js-item color-violet"></div><div class="ptn-item js-item color-magenta"></div><div class="ptn-item js-item color-white"></div><div class="ptn-item js-item color-black"></div><div class="ptn-item js-item color-gray"></div><div class="ptn-item js-item color-lime"></div>
+		</div>
+	</div>
+
+
+<script type="text/javascript" charset="utf-8" src="jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="jquery-ui.js"></script>
+<script>
+var js15 = {};
+js15.params = { width: 42, height: 42, marginLeft: 3, marginTop: 3, count: 12};
+js15.blockH = js15.params.height + js15.params.marginTop;
+js15.blockW = js15.params.width + js15.params.marginLeft;
+
+$(document).ready(function(){
+	var resizableBlock = $(".js-ptn").eq(0);
+	resizableBlock.resizable({
+		resize: function(event, ui) {
+			var wWidth = parseFloat(ui.size.width);
+			var wHeight = parseFloat(ui.size.height);
+			var wWrapHeight = parseFloat($(".js-ptn-wrap").height());
+			var cols = (wWidth - wWidth%js15.blockW)/js15.blockW;
+			var rows = (wHeight - wHeight%js15.blockH)/js15.blockH;
+			var wrapPaddingTop = wHeight%js15.blockH/2;
+			var wrapPaddingLeft = wWidth%js15.blockW/2;
+			$('.st-invisible').removeClass('st-invisible');
+			if (js15.params.count > cols*rows){
+				$('.js-item').eq(cols*rows).addClass('st-invisible');
+			} else {
+				if(wWidth > js15.params.count*js15.blockW){
+					wrapPaddingLeft = (wWidth - js15.params.count*js15.blockW)/2;
+				}
+				if(wHeight > js15.params.count*js15.blockH/cols){
+					wrapPaddingTop = (wHeight - wWrapHeight)/2;
+				}
+			}
+			$(".js-ptn-wrap").css({'top': Math.ceil(wrapPaddingTop) + 'px', 'left': wrapPaddingLeft + 'px'});
+		}
+	});
+	$(".js-ptn-wrap").sortable();
+	
+});
+</script>
+</body>
+</html>
